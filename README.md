@@ -1,4 +1,4 @@
-#LIRI BOT
+# LIRI BOT
 
 ### Description
 
@@ -7,7 +7,7 @@ LIRI is like iPhone's SIRI. However, while SIRI is a Speech Interpretation and R
 
 ### Before You Begin
 
-1. LIRI will display your latest tweets. If you don't already have an account on Twitter, make one and post a few tweets about your latest projects.
+1. LIRI will display your latest tweets. A Twitter account has been created to view tweets.
 
 2. Make a new GitHub repository called liri-node-app and clone it to your computer.
 
