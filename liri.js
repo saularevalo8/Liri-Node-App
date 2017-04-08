@@ -89,14 +89,14 @@ function spotifySearch(songInput) {
 }
 
 function movieSearch(mov) {
-    // if no movie is input default to 'Mr. Nobody.'
+    
     if (mov === '') {
         mov = 'Mr. Nobody.';
     }
-    // request parameter to make omdb request
+    
     var url = "http://www.omdbapi.com/?t=" + mov + "&y=&plot=short&r=json";
 
-    // request method makes request and console logs response properties
+    
     request.get(url, function(err, response, body) {
         if (err) {
             return console.error(err);
@@ -108,11 +108,11 @@ function movieSearch(mov) {
     });
 }
 
-// doWhatItSays function reads random.txt and executes a function
+
 function doWhatItSays() {
-    // readFile method reads random.txt and returns back the file's data
+   
     fs.readFile("random.txt", "utf8", function(err, data) {
-        // variables take in string from random.txt and create an array with the function and search property
+       
         if (err) {
             logger.log(err);
         } else {
