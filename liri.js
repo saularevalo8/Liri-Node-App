@@ -5,6 +5,29 @@ var request = require("request");
 var fs = require("fs");
 var command = process.argv[2];
 
+function runCommands() {
+
+    if (command === "my-tweets") {
+        Tweets();
+    } else if (command === "spotify-this-song") {
+
+        var songValue = process.argv.splice(3).join(" ");
+        spotifySearch(songValue);
+
+    } else if (command === "movie-this") {
+
+        var movieValue = process.argv.splice(3).join(" ");
+        movieSearch(movieValue);
+    } else if (command === "do-what-it-says") {
+
+        doWhatItSays();
+
+    } else {
+        console.log("Please Provide a valid command!");
+
+    }
+}
+
 function Tweets() {
     var client = new Twitter({
         consumer_key: twiKeys.twitterKeys.consumer_key,
@@ -88,48 +111,29 @@ function movieSearch(mov) {
 // doWhatItSays function reads random.txt and executes a function
 function doWhatItSays() {
     // readFile method reads random.txt and returns back the file's data
-    fs.readFile("random.txt", "utf8", function(error, data) {
+    fs.readFile("random.txt", "utf8", function(err, data) {
         // variables take in string from random.txt and create an array with the function and search property
-        var dataArr = data.split(",");
-        var value = dataArr[1];
+        if (err) {
+            logger.log(err);
+        } else {
+            var commandArray = data.split(",");
+            var searchVal = commandArray[1];
 
-        if (dataArr[0] === "my-tweets") {
-            myTweets();
-        } else if (dataArr[0] === "spotify-this-song") {
-            spotifySearch(value);
-        } else if (dataArr[0] === "movie-this") {
-            movieSearch(value);
-        } else { console.log("Please Provide a valid command!") }
+            switch (commandArray[0]) {
+                case "my-tweets":
+                    Tweets();
+                    break;
+                case "spotify-this-song":
+                    spotifySearch(searchVal);
+                    break;
+                case "movie-this":
+                    movieSearch(searchVal);
+
+            }
+        }
 
     });
 }
 
-
-
-
-
-
-function runCommands() {
-
-    if (command === "my-tweets") {
-        Tweets();
-    } else if (command === "spotify-this-song") {
-
-        var songValue = process.argv.splice(3).join(" ");
-        spotifySearch(songValue);
-
-    } else if (command === "movie-this") {
-
-        var movieValue = process.argv.splice(3).join(" ");
-        movieSearch(movieValue);
-    } else if (command === "do-what-it-says") {
-
-        doWhatItSays();
-
-    } else {
-        console.log("Please Provide a valid command!");
-
-    }
-}
 
 runCommands();

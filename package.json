@@ -1,0 +1,26 @@
+{
+  "name": "Liri-Node-App",
+  "version": "1.0.0",
+  "description": "LIRI is a Language Interpretation and Recognition Interface just like SIRI",
+  "main": "App.js",
+  "dependencies": {
+    "request": "^2.81.0",
+    "spotify": "^0.3.0",
+    "twitter": "^1.7.0",
+    "node-cmd": "^2.0.0",
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saularevalo8/Liri-Node-App"
+  },
+  "author": "Saul Arevalo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saularevalo8/Liri-Node-App/issues"
+  },
+  "homepage": "https://github.com/saularevalo8/Liri-Node-App/#readme"
+}
