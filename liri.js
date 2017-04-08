@@ -1,6 +1,8 @@
 var twiKeys = require('./keys.js');
 var Twitter = require('twitter');
 var spotify = require('spotify');
+var request = require("request");
+var fs = require("fs");
 var command = process.argv[2];
 
 function Tweets() {
@@ -12,8 +14,8 @@ function Tweets() {
     });
     var params = { screen_name: 'Saul_Valo', count: 20 };
 
-    client.get('statuses/user_timeline', params, function(error, tweet, response) {
-        if (!error) {
+    client.get('statuses/user_timeline', params, function(err, tweet, response) {
+        if (!err) {
             console.log("===========================");
             for (var i = 0; i < tweet.length; i++) {
                 var username = tweet[i].user.name;
@@ -40,7 +42,7 @@ function spotifySearch(songInput) {
             spotifySearch("The Sign Ace Of Base");
             return;
         } else if (!err) {
-            
+
             var song = data.tracks.items[0].name;
             var urlSong = data.tracks.items[0].preview_url;
             var albumInfo = data.tracks.items[0].album.name;
@@ -63,6 +65,49 @@ function spotifySearch(songInput) {
 
 }
 
+function movieSearch(mov) {
+    // if no movie is input default to 'Mr. Nobody.'
+    if (mov === '') {
+        mov = 'Mr. Nobody.';
+    }
+    // request parameter to make omdb request
+    var url = "http://www.omdbapi.com/?t=" + mov + "&y=&plot=short&r=json";
+
+    // request method makes request and console logs response properties
+    request.get(url, function(err, response, body) {
+        if (err) {
+            return console.error(err);
+        }
+        console.log("--------------------------------");
+        console.log("\nTitle: " + JSON.parse(body).Title + "\nYear Released: " + JSON.parse(body).Year + "\nIMDB Rating: " + JSON.parse(body).imdbRating + "\nProduced In: " + JSON.parse(body).Country + "\nLanguage(s): " + JSON.parse(body).Language + "\nActors: " + JSON.parse(body).Actors + "\nPlot: " + JSON.parse(body).Plot + "\nPlot: " + JSON.parse(body).Plot + "\nRotten Tomatoes Rating: " + JSON.parse(body).Ratings[1]["Value"]);
+        console.log("--------------------------------");
+
+    });
+}
+
+// doWhatItSays function reads random.txt and executes a function
+function doWhatItSays() {
+    // readFile method reads random.txt and returns back the file's data
+    fs.readFile("random.txt", "utf8", function(error, data) {
+        // variables take in string from random.txt and create an array with the function and search property
+        var dataArr = data.split(",");
+        var value = dataArr[1];
+
+        if (dataArr[0] === "my-tweets") {
+            myTweets();
+        } else if (dataArr[0] === "spotify-this-song") {
+            spotifySearch(value);
+        } else if (dataArr[0] === "movie-this") {
+            movieSearch(value);
+        } else { console.log("Please Provide a valid command!") }
+
+    });
+}
+
+
+
+
+
 
 function runCommands() {
 
@@ -73,8 +118,18 @@ function runCommands() {
         var songValue = process.argv.splice(3).join(" ");
         spotifySearch(songValue);
 
-    }else{console.log("Please Provide a valid command!")
-                }
+    } else if (command === "movie-this") {
+
+        var movieValue = process.argv.splice(3).join(" ");
+        movieSearch(movieValue);
+    } else if (command === "do-what-it-says") {
+
+        doWhatItSays();
+
+    } else {
+        console.log("Please Provide a valid command!");
+
+    }
 }
 
 runCommands();
